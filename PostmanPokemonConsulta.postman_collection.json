@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "c99bbc3f-ed9d-466e-aa2f-5ce1f739ac80",
+		"name": "PostmanPokemonConsulta",
+		"description": "Postman Echo is service you can use to test your REST clients and make sample API calls. It provides endpoints for `GET`, `POST`, `PUT`, various auth mechanisms and other utility endpoints.\n\nThe documentation for the endpoints as well as example responses can be found at [https://postman-echo.com](https://postman-echo.com/?source=echo-collection-app-onboarding)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18944700"
+	},
+	"item": [
+		{
+			"name": "Pokemon REsquest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"eval(pm.collectionVariables.get(\"c_run_tests\"))();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/{{c_consulta}}/{{c_valor}}",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"{{c_consulta}}",
+						"{{c_valor}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let c_run_tests  = () => {",
+					"    //Variables con valores del json enviado",
+					"    var testDataIteration = pm.iterationData.get('c_test_case')",
+					"    var expectedmesaje=  pm.iterationData.get('c_expectedMessage')",
+					"    var expectedStatusCode = pm.iterationData.get('c_expectedStatusCode')  ",
+					"    var expectedStatusCodeBody =pm.iterationData.get('c_expectedCode_body') ",
+					"    ",
+					"",
+					"    var statuscode_code = pm.response.code //CODIGO DE RESPUESTA DEL SERVICIO",
+					"",
+					"    pm.test(`${testDataIteration}`)",
+					"    console.log(testDataIteration)     ",
+					"    ",
+					"    if(statuscode_code==200)   ",
+					"    {      ",
+					"    ValidadeStatusMessaje(\"OK\",expectedmesaje)     ",
+					"    ValidadeStatusCode_P(statuscode_code,expectedStatusCode)",
+					"    ValidateTimeResponse(2000)               ",
+					"    }",
+					"    else{",
+					"          console.log(\"Estoy aqui\")",
+					"    ValidadeStatusCode_P(statuscode_code,expectedStatusCode)",
+					"    ValidateTimeResponse(2000)   ",
+					"    }",
+					"    ",
+					"  ",
+					"    ",
+					"     function ValidadeStatusCode_P (StCode_expt, StCode_Reponse) {     ",
+					"",
+					"        console.log(StCode_expt,\" = \",StCode_Reponse)",
+					"        pm.test(`Validade Status Code is: ${ StCode_expt}`, function () {",
+					"            pm.expect(StCode_expt).to.be.eql(StCode_Reponse)",
+					"       })",
+					"        ",
+					"     }",
+					"        function ValidadeStatusMessaje (StMsj_expt, StMsj_Reponse) {     ",
+					"",
+					"         console.log(StMsj_expt,\" = \",StMsj_Reponse)",
+					"        pm.test(`Validade Status mensaje: ${ StMsj_expt}`, function () {",
+					"            pm.expect(StMsj_expt).to.be.eql(StMsj_Reponse)",
+					"        })",
+					"     }",
+					"   ",
+					"    function ValidateTimeResponse(expectedTime) {",
+					"        //const expectedTime = responseTime",
+					"        pm.test(`Validade responsTime is below to ${expectedTime}ms`, function () {",
+					"            pm.expect(pm.response.responseTime).to.be.below(expectedTime)",
+					"        })",
+					"    }",
+					"    ",
+					"}",
+					"pm.collectionVariables.set(\"c_run_tests\", c_run_tests.toString())"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "c_consulta",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "c_valor",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "c_run_tests",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
