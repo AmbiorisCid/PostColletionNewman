@@ -48,7 +48,7 @@ jobs:
        
        # Upload the report to TestArtifacts directory
       - name: OutPut the results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.5.3
         with:
           name: Reports
           path: testArtifacts
